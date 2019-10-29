@@ -15,14 +15,14 @@ namespace TopNotchUnderdogs.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Welcome to the hottest Music Website WorldWide!!!";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Contact Us";
 
             return View();
         }

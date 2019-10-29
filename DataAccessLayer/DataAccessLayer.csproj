@@ -41,8 +41,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContextDAL.cs" />
+    <Compile Include="GenreDAL.cs" />
+    <Compile Include="GenreMapper.cs" />
+    <Compile Include="ListeningMapper.cs" />
+    <Compile Include="ListeningsDAL.cs" />
+    <Compile Include="Mapper.cs" />
+    <Compile Include="MixtapeDAL.cs" />
+    <Compile Include="MixtapeMapper.cs" />
+    <Compile Include="RatingDAL.cs" />
+    <Compile Include="RatingMapper.cs" />
     <Compile Include="RoleDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoleMapper.cs" />
+    <Compile Include="UserDAL.cs" />
+    <Compile Include="UserMapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{b2feed0f-b7ba-4d30-9e68-a97515905ef0}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

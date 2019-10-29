@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
-    public class RoleDAL
+    public class GenreDAL
     {
-        public int RoleID { get; set; }
-        public string RoleName { get; set; }
+        public int GenreID { get; set; }
+        public string GenreName { get; set; }
         public override string ToString()
         {
-            return $"{RoleID,2} {RoleName}";
+            return $"{GenreID,3} {GenreName}";
         }
     }
 }
