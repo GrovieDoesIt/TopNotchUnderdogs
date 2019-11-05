@@ -150,11 +150,11 @@ namespace BusinessLogicLayer
 
 
         #region RatingsBLL
-        public int RatingCreate(int UserID, decimal RatingScore)
+        public void RatingCreate(int MixtapeID,int UserID, decimal RatingScore)
         {
-            int ExpectedReturnValue = 0;
-            ExpectedReturnValue = context.RatingCreate(UserID, RatingScore);
-            return ExpectedReturnValue;
+            
+            context.RatingCreate(MixtapeID,UserID, RatingScore);
+            
         }
 
         public void RatingDelete(int MixtapeID, int UserID)
@@ -162,24 +162,24 @@ namespace BusinessLogicLayer
             context.RatingDelete(MixtapeID, UserID);
         }
 
-        public List<RatingBLL> RatingsGetAllMixtapeRatingsByUserID(int skip, int take, int UserID)
+        public List<MixtapeBLL> RatingsGetAllMixtapeRatingsByUserID(int skip, int take, int UserID)
         {
-            List<RatingBLL> ExpectedReturnValue = new List<RatingBLL>();
-            List<RatingDAL> infos = context.RatingsGetAllMixtapeRatingsByUserID(skip, take, UserID);
-            foreach(RatingDAL info in infos)
+            List<MixtapeBLL> ExpectedReturnValue = new List<MixtapeBLL>();
+            List<MixtapeDAL> infos = context.RatingsGetAllMixtapeRatingsByUserID(skip, take, UserID);
+            foreach(MixtapeDAL info in infos)
             {
-                RatingBLL correctedInfo = new RatingBLL(info);
+                MixtapeBLL correctedInfo = new MixtapeBLL(info);
                 ExpectedReturnValue.Add(correctedInfo);
             }
             return ExpectedReturnValue;
         }
-        public List<RatingBLL> RatingsGetAllUsersRatingsByMixtapeID(int skip, int take, int MixtapeID)
+        public List<UserBLL> RatingsGetAllUsersRatingsByMixtapeID(int skip, int take, int MixtapeID)
         {
-            List<RatingBLL> ExpectedReturnValue = new List<RatingBLL>();
-            List<RatingDAL> infos = context.RatingsGetAllUsersRatingsByMixtapeID(skip, take, MixtapeID);
-            foreach(RatingDAL info in infos)
+            List<UserBLL> ExpectedReturnValue = new List<UserBLL>();
+            List<UserDAL> infos = context.RatingsGetAllUsersRatingsByMixtapeID(skip, take, MixtapeID);
+            foreach(UserDAL info in infos)
             {
-                RatingBLL correctedInfo = new RatingBLL(info);
+                UserBLL correctedInfo = new UserBLL(info);
                 ExpectedReturnValue.Add(correctedInfo);
             }
             return ExpectedReturnValue;
@@ -238,10 +238,10 @@ namespace BusinessLogicLayer
 
 
         #region MixtapeBLL
-        public int MixtapeCreate(string ArtistName, string Title, int NumberOfSongs, int Length)
+        public int MixtapeCreate(string MixtapePath,string ArtistName, string Title, int NumberOfSongs, int Length)
         {
             int ExpectedReturnValue = 0;
-            ExpectedReturnValue = context.MixtapeCreate(ArtistName, Title, NumberOfSongs, Length);
+            ExpectedReturnValue = context.MixtapeCreate(MixtapePath,ArtistName, Title, NumberOfSongs, Length);
             return ExpectedReturnValue;
         }
         public void MixtapeDelete(int MixtapeID)
@@ -277,9 +277,9 @@ namespace BusinessLogicLayer
             ExpectedReturnValue = context.MixtapesObtainCount();
             return ExpectedReturnValue;
         }
-        public void MixtapeUpdateJust(int MixtapeID, string ArtistName, string Title, int NumberOfSongs, int Length)
+        public void MixtapeUpdateJust(int MixtapeID, string MixtapePath, string ArtistName, string Title, int NumberOfSongs, int Length)
         {
-            context.MixtapeUpdateJust(MixtapeID, ArtistName, Title, NumberOfSongs, Length);
+            context.MixtapeUpdateJust(MixtapeID, MixtapePath, ArtistName, Title, NumberOfSongs, Length);
         }
         #endregion
 
@@ -297,24 +297,24 @@ namespace BusinessLogicLayer
             context.ListeningDelete(ListeningID, MixtapeID,UserID);
         }
         
-        public List<ListeningBLL> ListeningsGetAllMixtapeListeningsByUserID(int skip, int take, int UserID)
+        public List<MixtapeBLL> ListeningsGetAllMixtapeListeningsByUserID(int skip, int take, int UserID)
         {
-            List<ListeningBLL> ExpectedReturnValue = new List<ListeningBLL>();
-            List<ListeningsDAL> infos = context.ListeningsGetAllMixtapeListeningsByUserID(skip, take, UserID);
-            foreach (ListeningsDAL info in infos)
+            List<MixtapeBLL> ExpectedReturnValue = new List<MixtapeBLL>();
+            List<MixtapeDAL> infos = context.ListeningsGetAllMixtapeListeningsByUserID(skip, take, UserID);
+            foreach (MixtapeDAL info in infos)
             {
-                ListeningBLL correctedInfo = new ListeningBLL(info);
+                MixtapeBLL correctedInfo = new MixtapeBLL(info);
                 ExpectedReturnValue.Add(correctedInfo);
             }
             return ExpectedReturnValue;
         }
-        public List<ListeningBLL> ListeningsGetAllUserListeningsByMixtapeID(int skip, int take, int MixtapeID)
+        public List<UserBLL> ListeningsGetAllUserListeningsByMixtapeID(int skip, int take, int MixtapeID)
         {
-            List<ListeningBLL> ExpectedReturnValue = new List<ListeningBLL>();
-            List<ListeningsDAL> infos = context.ListeningsGetAllUserListeningsByMixtapeID(skip, take, MixtapeID);
-            foreach(ListeningsDAL info in infos)
+            List<UserBLL> ExpectedReturnValue = new List<UserBLL>();
+            List<UserDAL> infos = context.ListeningsGetAllUserListeningsByMixtapeID(skip, take, MixtapeID);
+            foreach(UserDAL info in infos)
             {
-                ListeningBLL correctedInfo = new ListeningBLL(info);
+                UserBLL correctedInfo = new UserBLL(info);
                 ExpectedReturnValue.Add(correctedInfo);
             }
             return ExpectedReturnValue;
@@ -358,6 +358,8 @@ namespace BusinessLogicLayer
         }
 
         #endregion
+
+       
 
 
     }

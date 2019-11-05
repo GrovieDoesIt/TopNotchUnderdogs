@@ -15,7 +15,7 @@ namespace TopNotchGlobal.Models
 
         public const int AdministratorRole = 2;
         public const string AdministratorRoleName = "Administrator";
-        public const int NonVerifiedUser = 5;
+        public const int NonVerifiedUser = 8;
         public const string NonVerifiedUserRoleName = "NonVerifiedUser";
 
         public const int DefaultDefaultPageSize = 3;

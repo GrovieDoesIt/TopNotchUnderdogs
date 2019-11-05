@@ -8,8 +8,8 @@ namespace DataAccessLayer
 {
     public class RatingDAL
     {
+        public int MixtapeID { get; set; }
         public int UserID { get; set; }
-        public int RatingID { get; set; }
         public decimal RatingScore { get; set; }
         
 

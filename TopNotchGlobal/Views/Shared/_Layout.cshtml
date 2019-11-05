@@ -20,13 +20,25 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (User.Identity.IsAuthenticated)
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <li>@Html.ActionLink("Main", "Index", "Home")</li>
+                            <li>@Html.ActionLink("About Us", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                            <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
+                            <li>@Html.ActionLink("Mixtapes", "Index", "Mixtapes")</li>
+                            <li>@Html.ActionLink("Welcome " + User.Identity.Name, "Index", "Home")</li>
+                            <li>@Html.ActionLink("Logout", "Logout", "Home")</li>
+                        }
+                    else if (User.IsInRole("NonVerifiedUser"))
                     {
                         <li>@Html.ActionLink("Main", "Index", "Home")</li>
                         <li>@Html.ActionLink("About Us", "About", "Home")</li>
                         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("Mixtapes", "Index", "Mixtapes")</li>
                         <li>@Html.ActionLink("Welcome " + User.Identity.Name, "Index", "Home")</li>
-                        <li>@Html.ActionLink("Logout", "Logout", "Home")</li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Home")</li>;
                     }
                     else
                     {

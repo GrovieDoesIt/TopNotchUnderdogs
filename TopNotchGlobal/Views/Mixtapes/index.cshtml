@@ -7,12 +7,16 @@
 <h2>index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create")</p>
+   <p> @Html.ActionLink("Show Statistics", "Statistics")
 </p>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.MixtapeID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MixtapePath)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ArtistName)
@@ -30,28 +34,36 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.MixtapeID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ArtistName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NumberOfSongs)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Length)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new {  id=item.MixtapeID }) |
-            @Html.ActionLink("Details", "Details", new {  id=item.MixtapeID }) |
-            @Html.ActionLink("Delete", "Delete", new {  id=item.MixtapeID  })
-        </td>
-    </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.MixtapeID)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.MixtapePath)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ArtistName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Title)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.NumberOfSongs)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Length)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.MixtapeID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.MixtapeID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.MixtapeID }) |
+        @Html.ActionLink("Show Listeners", "ShowListeners", new { id = item.MixtapeID }) |
+        @Html.ActionLink("View Ratings", "ViewRatings", new { id = item.MixtapeID })
+
+
+    </td>
+</tr>
 }
 
 </table>
+

@@ -16,13 +16,17 @@ namespace TopNotchGlobal.Models
         [Required]
         [StringLength(Constants.MaxUserNameLength, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = Constants.MinUserNameLength )]
         //[DataType(DataType.Text)]
-       // [Display(Name = "UserNameXXX")]
+       // [Display(Name = "UserName")]
         public string UserName { get; set; }
         [Required]
         //[StringLength(Constants.MaxPasswordLength, ErrorMessage = "The Password must be between {0} and {1} characters long.", MinimumLength = Constants.MinPasswordLength)]
         //[RegularExpression(Constants.PasswordRequirements, ErrorMessage = Constants.PasswordRequirementsMessage)]
         //[DataType(DataType.Password)]
-        public string Password { get; set; }
+  
+        [DataType(DataType.Password)]
+        [Display(Name ="Password")]
+         public string Hash { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Re-Enter Password")]

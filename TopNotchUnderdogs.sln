@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopNotchGlobal", "TopNotchG
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{B2FEED0F-B7BA-4D30-9E68-A97515905EF0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogicLayerTests", "BusinessLogicLayerTests\BusinessLogicLayerTests.csproj", "{70348619-F119-4753-B6A8-2FB8B5D90279}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{B2FEED0F-B7BA-4D30-9E68-A97515905EF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2FEED0F-B7BA-4D30-9E68-A97515905EF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2FEED0F-B7BA-4D30-9E68-A97515905EF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70348619-F119-4753-B6A8-2FB8B5D90279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70348619-F119-4753-B6A8-2FB8B5D90279}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70348619-F119-4753-B6A8-2FB8B5D90279}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70348619-F119-4753-B6A8-2FB8B5D90279}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -117,7 +117,7 @@ namespace TopNotchGlobal.Controllers
             catch (Exception ex)
             {
                 Logger.Log(ex);
-                return View("NiceErrorMessage", ex);
+                return View("Error", ex);
             }
         }
     }

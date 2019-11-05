@@ -20,6 +20,26 @@ namespace TopNotchGlobal.Controllers
             }
             return View(infos);
         }
+        public ActionResult ShowListeners(int id)
+        {
+
+            List<MixtapeBLL> infos = new List<MixtapeBLL>();
+            using (ContextBLL context = new ContextBLL())
+            {
+                infos = context.ListeningsGetAllMixtapeListeningsByUserID(0, 100, id);
+            }
+            return View("..\\Mixtapes\\index", infos);
+        }
+        public ActionResult ViewRatings(int id)
+        {
+
+            List<MixtapeBLL> infos = new List<MixtapeBLL>();
+            using (ContextBLL context = new ContextBLL())
+            {
+                infos = context.RatingsGetAllMixtapeRatingsByUserID(0, 100, id);
+            }
+            return View("..\\Mixtapes\\index", infos);
+        }
 
         // GET: Users/Details/5
         public ActionResult Details(int id)

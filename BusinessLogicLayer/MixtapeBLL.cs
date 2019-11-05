@@ -10,6 +10,7 @@ namespace BusinessLogicLayer
    public class MixtapeBLL
     { 
         public int MixtapeID { get; set; }
+        public string MixtapePath { get; set; }
         public string ArtistName { get; set; }
         public string Title { get; set; }
         public int NumberOfSongs { get; set; }
@@ -17,6 +18,7 @@ namespace BusinessLogicLayer
         public MixtapeBLL(DataAccessLayer.MixtapeDAL Mixtape)
         {
             MixtapeID = Mixtape.MixtapeID;
+            MixtapePath = Mixtape.MixtapePath;
             ArtistName = Mixtape.ArtistName;
             Title = Mixtape.Title;
             NumberOfSongs = Mixtape.NumberOfSongs;

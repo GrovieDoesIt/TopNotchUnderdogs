@@ -10,24 +10,24 @@ namespace DataAccessLayer
    public class UserMapper : Mapper
     {
         int OffsetToUserID;
+        int OffsetToRoleID;
         int OffsetToEmail;
         int OffsetToHash;
         int OffsetToSalt;
-        int OffsetToRoleID;
         int OffsetToRoleName;
 
         public UserMapper(SqlDataReader reader)
         {
             OffsetToUserID = reader.GetOrdinal("UserID");
             Assert(0 == OffsetToUserID, $"UserID is {OffsetToUserID} instead of 0 as expected");
+            OffsetToRoleID = reader.GetOrdinal("RoleID");
+            Assert(4 == OffsetToRoleID, $"RoleID is {OffsetToRoleID} instead of 4 as expected");
             OffsetToEmail = reader.GetOrdinal("Email");
             Assert(1 == OffsetToEmail, $"Email is {OffsetToEmail} instead of 1 as expected");
             OffsetToHash = reader.GetOrdinal("Hash");
             Assert(2 == OffsetToHash, $"Hash is {OffsetToHash} instead of 2 as expected");
             OffsetToSalt = reader.GetOrdinal("Salt");
             Assert(3 == OffsetToSalt, $"Salt is {OffsetToSalt} instead of 3 as expected");
-            OffsetToRoleID = reader.GetOrdinal("RoleID");
-            Assert(4 == OffsetToRoleID, $"RoleID is {OffsetToRoleID} instead of 4 as expected");
             OffsetToRoleName = reader.GetOrdinal("RoleName");
             Assert(5 == OffsetToRoleName, $"RoleName is {OffsetToRoleName} instead of 5 as expected");
         }
@@ -35,10 +35,10 @@ namespace DataAccessLayer
         {
             UserDAL ExpectedReturnValue = new UserDAL();
             ExpectedReturnValue.UserID = reader.GetInt32(OffsetToUserID);
+            ExpectedReturnValue.RoleID = reader.GetInt32(OffsetToRoleID);
             ExpectedReturnValue.Email = reader.GetString(OffsetToEmail);
             ExpectedReturnValue.Hash = reader.GetString(OffsetToHash);
             ExpectedReturnValue.Salt = reader.GetString(OffsetToSalt);
-            ExpectedReturnValue.RoleID = reader.GetInt32(OffsetToRoleID);
             ExpectedReturnValue.RoleName = reader.GetString(OffsetToRoleName);
             return ExpectedReturnValue;
         }

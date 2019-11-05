@@ -19,6 +19,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.MixtapePath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MixtapePath)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.ArtistName)
         </dt>
 
@@ -52,7 +60,12 @@
 
     </dl>
 </div>
+<audio controls>
+       <source src="@Url.Content(Model.MixtapePath)" type="audio/mp3" >
+       <source src="@Url.Content(Model.MixtapePath)" type="audio/ogg" >
+    </audio>
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Edit", "Edit", new {  id = Model.MixtapeID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

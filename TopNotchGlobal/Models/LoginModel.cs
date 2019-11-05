@@ -9,7 +9,9 @@ namespace TopNotchGlobal.Models
     public class LoginModel
     {
         public string Email { get; set; }
-       [Display(Name = "Password")] public string Hash { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")] public string Hash { get; set; }
         public string Message { get; set; }
         public string ReturnURL { get; set; }
     }

@@ -9,16 +9,16 @@ namespace DataAccessLayer
 {
    public class RatingMapper : Mapper
     {
+        int OffsetToMixtapeID;
         int OffsetToUserID;
-        int OffsetToRatingID;
         int OffsetToRatingScore;
 
         public RatingMapper(SqlDataReader reader)
         {
+            OffsetToMixtapeID = reader.GetOrdinal("MixtapeID");
+            Assert(0 == OffsetToMixtapeID, $"MixtapeID is {OffsetToMixtapeID} instead of 0 as expected");
             OffsetToUserID = reader.GetOrdinal("UserID");
-            Assert(0 == OffsetToUserID, $"UserID is {OffsetToUserID} instead of 0 as expected");
-            OffsetToRatingID = reader.GetOrdinal("RatingID");
-            Assert(1 == OffsetToRatingID, $"RatingID is {OffsetToRatingID} instead of 1 as expected");
+            Assert(1 == OffsetToUserID, $"UserID is {OffsetToUserID} instead of 1 as expected");
             OffsetToRatingScore = reader.GetOrdinal("RatingScore");
             Assert(2 == OffsetToRatingScore, $"RatingScore is {OffsetToRatingScore} instead of 2 as expected");
 
@@ -27,8 +27,8 @@ namespace DataAccessLayer
         public RatingDAL ToRate(SqlDataReader reader)
         {
             RatingDAL ExpectedReturnValue = new RatingDAL();
+            ExpectedReturnValue.MixtapeID = reader.GetInt32(OffsetToMixtapeID);
             ExpectedReturnValue.UserID = reader.GetInt32(OffsetToUserID);
-            ExpectedReturnValue.RatingID = reader.GetInt32(OffsetToRatingID);
             ExpectedReturnValue.RatingScore = reader.GetDecimal(OffsetToRatingScore);
 
             return ExpectedReturnValue;

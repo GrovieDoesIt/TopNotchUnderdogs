@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TopNotchGlobal.Models;
+using Logger_;
 
 namespace TopNotchGlobal.Controllers
 {
@@ -58,16 +59,34 @@ namespace TopNotchGlobal.Controllers
                     return View(info);
                 }
                 string actual = user.Hash;
-                string potential = info.Hash;
-                bool validateuser = potential == actual;
-                if(validateuser)
+                string potential = info.Hash + user.Salt;
+                bool validateuser = System.Web.Helpers.Crypto.VerifyHashedPassword(actual, potential);
+                string validationType = $"ClearText:({user.UserID})";
+                if(!validateuser)
+                {
+                    potential = info.Hash + user.Salt;
+                    try
+                    {
+                        validateuser = System.Web.Helpers.Crypto.VerifyHashedPassword(actual, potential);
+                        validationType = $"Hashed:({user.UserID})";
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Log(ex);
+                            validateuser = false;
+                    }
+
+                }
+                if (validateuser)
                 {
                     Session["AuthEmail"] = user.Email;
                     Session["AuthRoleName"] = user.RoleName;
+                    Session["AUTHType"] = validationType;
                     return Redirect(info.ReturnURL);
                 }
-                info.Message = "The password was incorrect";
+                info.Message = "The Email/password was incorrect";
                 return View(info);
+
             }
 
     }
@@ -103,7 +122,7 @@ namespace TopNotchGlobal.Controllers
                     GenerateSalt(Constants.SaltSize)
                 };
                 user.Hash = System.Web.Helpers.Crypto.
-                    HashPassword(info.Password + user.Salt);
+                    HashPassword(info.Hash + user.Salt);
                 user.RoleID = 3;
 
                 context.UserCreate(user.Email,user.Hash,user.Salt,Constants.NonVerifiedUser);

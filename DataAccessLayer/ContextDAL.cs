@@ -17,10 +17,10 @@ namespace DataAccessLayer
         }
         void EnsureConnected()
         {
-            switch (conn.State)
+            switch (conn.State)//making sure that regardless of the state we open the connection
             {
                 case (System.Data.ConnectionState.Closed):
-                    conn.Open();//making sure that regardless of the state we open the connection
+                    conn.Open();
                     break;
                 case (System.Data.ConnectionState.Broken):
                     conn.Close();
@@ -489,9 +489,9 @@ namespace DataAccessLayer
 
 
         #region RatingProcedures
-        public int RatingCreate(int UserID, decimal RatingScore)
+        public void RatingCreate(int MixtapeID,int UserID, decimal RatingScore)
         {
-            int ExpectedReturnValue = 0;
+            
             try
             {
 
@@ -500,19 +500,16 @@ namespace DataAccessLayer
                 using (SqlCommand command = new SqlCommand("RatingCreate", conn))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@RatingID", 0);
+                    command.Parameters.AddWithValue("@MixtapeID", MixtapeID);
                     command.Parameters.AddWithValue("@UserID", UserID);
                     command.Parameters.AddWithValue("@RatingScore", RatingScore);
-                    command.Parameters["RatingID"].Direction = System.Data.ParameterDirection.Output;
                     command.ExecuteNonQuery();
-                    ExpectedReturnValue = (int)command.Parameters["@RatingID"].Value;
                 }
             }
             catch (Exception ex) when (Log(ex))
             {
 
             }
-            return ExpectedReturnValue;
             
         }
         public void RatingDelete(int MixtapeID, int UserID)
@@ -534,9 +531,9 @@ namespace DataAccessLayer
 
             }
         }
-        public List<RatingDAL>RatingsGetAllMixtapeRatingsByUserID (int skip, int take, int UserID)
+        public List<MixtapeDAL> RatingsGetAllMixtapeRatingsByUserID (int skip, int take, int UserID)
         {
-            List<RatingDAL> ExpectedReturnValue = new List<RatingDAL>();
+            List<MixtapeDAL> ExpectedReturnValue = new List<MixtapeDAL>();
             try
             {
 
@@ -550,10 +547,10 @@ namespace DataAccessLayer
                     command.Parameters.AddWithValue("@UserID", UserID);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        RatingMapper rm = new RatingMapper(reader);
+                        MixtapeMapper rm = new MixtapeMapper(reader);
                         while (reader.Read())
                         {
-                            RatingDAL info = rm.ToRate(reader);
+                            MixtapeDAL info = rm.ToMixtape(reader);
                             ExpectedReturnValue.Add(info);
                         }
                     }
@@ -566,9 +563,9 @@ namespace DataAccessLayer
             return ExpectedReturnValue;
         }
 
-        public List<RatingDAL> RatingsGetAllUsersRatingsByMixtapeID(int skip, int take, int MixtapeID)
+        public List<UserDAL> RatingsGetAllUsersRatingsByMixtapeID(int skip, int take, int MixtapeID)
         {
-            List<RatingDAL> ExpectedReturnValue = new List<RatingDAL>();
+            List<UserDAL> ExpectedReturnValue = new List<UserDAL>();
             try
             {
 
@@ -582,10 +579,10 @@ namespace DataAccessLayer
                     command.Parameters.AddWithValue("@MixtapeID", MixtapeID);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        RatingMapper rm = new RatingMapper(reader);
+                        UserMapper rm = new UserMapper(reader);
                         while (reader.Read())
                         {
-                            RatingDAL info = rm.ToRate(reader);
+                            UserDAL info = rm.ToUser(reader);
                             ExpectedReturnValue.Add(info);
                         }
 
@@ -758,7 +755,7 @@ namespace DataAccessLayer
         }
         #endregion
         #region MixtapeProcedures
-        public int MixtapeCreate(string ArtistName, string Title, int NumberOfSongs, int Length)
+        public int MixtapeCreate(string MixtapePath ,string ArtistName, string Title, int NumberOfSongs, int Length)
         {
            int ExpectedReturnValue = 0;
             try
@@ -770,6 +767,7 @@ namespace DataAccessLayer
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@MixtapeID", 0);
+                    command.Parameters.AddWithValue("@MixtapePath", MixtapePath);
                     command.Parameters.AddWithValue("@ArtistName", ArtistName);
                     command.Parameters.AddWithValue("@Title", Title);
                     command.Parameters.AddWithValue("@NumberOfSongs", NumberOfSongs);
@@ -893,7 +891,7 @@ namespace DataAccessLayer
             return ExpectedReturnValue;
         }
 
-        public void MixtapeUpdateJust(int MixtapeID, string ArtistName, string Title, int NumberOfSongs, int Length)
+        public void MixtapeUpdateJust(int MixtapeID,string MixtapePath, string ArtistName, string Title, int NumberOfSongs, int Length)
         { try
             {
 
@@ -903,6 +901,7 @@ namespace DataAccessLayer
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@MixtapeID", MixtapeID);
+                    command.Parameters.AddWithValue("@MixtapePath", MixtapePath);
                     command.Parameters.AddWithValue("@ArtistName", ArtistName);
                     command.Parameters.AddWithValue("@Title", Title);
                     command.Parameters.AddWithValue("@NumberOfSongs", NumberOfSongs);
@@ -966,9 +965,9 @@ namespace DataAccessLayer
             }
         }
 
-        public List<ListeningsDAL> ListeningsGetAllMixtapeListeningsByUserID(int skip, int take, int UserID)
+        public List<MixtapeDAL> ListeningsGetAllMixtapeListeningsByUserID(int skip, int take, int UserID)
         {
-            List<ListeningsDAL> ExpectedReturnValue = new List<ListeningsDAL>();
+            List<MixtapeDAL> ExpectedReturnValue = new List<MixtapeDAL>();
             try
             {
 
@@ -982,10 +981,10 @@ namespace DataAccessLayer
                     command.Parameters.AddWithValue("@UserID", UserID);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        ListeningMapper lm = new ListeningMapper(reader);
+                        MixtapeMapper lm = new MixtapeMapper(reader);
                         while (reader.Read())
                         {
-                            ListeningsDAL info = lm.ToListening(reader);
+                            MixtapeDAL info = lm.ToMixtape(reader);
                             ExpectedReturnValue.Add(info);
                         }
 
@@ -999,9 +998,9 @@ namespace DataAccessLayer
             return ExpectedReturnValue;
         }
 
-        public List<ListeningsDAL> ListeningsGetAllUserListeningsByMixtapeID(int skip, int take, int MixtapeID)
+        public List<UserDAL> ListeningsGetAllUserListeningsByMixtapeID(int skip, int take, int MixtapeID)
         {
-            List<ListeningsDAL> ExpectedReturnValue = new List<ListeningsDAL>();
+            List<UserDAL> ExpectedReturnValue = new List<UserDAL>();
             try
             {
 
@@ -1015,10 +1014,10 @@ namespace DataAccessLayer
                     command.Parameters.AddWithValue("@MixtapeID", MixtapeID);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        ListeningMapper lm = new ListeningMapper(reader);
+                        UserMapper um = new UserMapper(reader);
                         while (reader.Read())
                         {
-                            ListeningsDAL info = lm.ToListening(reader);
+                            UserDAL info = um.ToUser(reader);
                             ExpectedReturnValue.Add(info);
                         }
                     }
@@ -1032,7 +1031,7 @@ namespace DataAccessLayer
         }
         #endregion
 
-
+        #region MixtapeGenresProcedures
         public void MixtapeGenresCreate (int MixtapeID, int GenreID)
         { try
             {
@@ -1135,7 +1134,7 @@ namespace DataAccessLayer
             }
             return ExpectedReturnValue;
         }
-
+        #endregion
 
     }
 

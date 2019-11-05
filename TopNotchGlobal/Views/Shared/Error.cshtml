@@ -1,4 +1,17 @@
 ﻿<!DOCTYPE html>
+@{ 
+    String Data = "Nothing To Report";
+    HandleErrorInfo Info = Model as HandleErrorInfo;
+    if (Info != null)
+    {
+        Data = Info.Exception.ToString();
+    }
+    Exception ex = Model as Exception;
+    if (ex != null )
+    {
+        Data = ex.ToString();
+    }
+}
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -10,7 +23,7 @@
         <h2> Sorry for the inconvenience however An error occurred while processing your request :( .</h2>
 
 
-        <p>@Model</p>
+        <p>@Data</p>
     </hgroup>
 </body>
 </html>

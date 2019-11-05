@@ -123,13 +123,13 @@
     <Compile Include="Controllers\GenresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MixtapesController.cs" />
-    <Compile Include="Controllers\MyListeningsController.cs" />
-    <Compile Include="Controllers\MyMixtapesController.cs" />
+    <Compile Include="Controllers\MultipleTablesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\1View2Tables.cs" />
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\Filters.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -194,11 +194,13 @@
     <Content Include="Views\Mixtapes\Create.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
-    <Content Include="Views\MyMixtapes\Index.cshtml" />
+    <Content Include="Views\Mixtapes\Statistics.cshtml" />
+    <Content Include="Views\Mixtapes\Upload.cshtml" />
+    <Content Include="Views\MultipleTables\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\MyListenings\" />
+    <Folder Include="Content\UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

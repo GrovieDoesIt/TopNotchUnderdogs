@@ -32,17 +32,17 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Hash, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.HiddenFor(model => model.Hash, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Hash, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.Hash, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Hash, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Salt, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.HiddenFor(model => model.Salt, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Salt, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.Salt, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Salt, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -56,9 +56,9 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.HiddenFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
             </div>
         </div>

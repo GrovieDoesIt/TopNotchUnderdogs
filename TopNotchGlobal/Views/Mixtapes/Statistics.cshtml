@@ -1,0 +1,53 @@
+﻿@model IEnumerable<BusinessLogicLayer.MixtapeStatistics>
+
+@{
+    ViewBag.Title = "Statistics";
+}
+
+<h2>Statistics</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ArtistName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalSongsByArtist)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalLengthByArtist)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MixtapeAvgLengthByArtist)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AvgLengthPerSongBymixtape)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ArtistName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalSongsByArtist)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalLengthByArtist)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MixtapeAvgLengthByArtist)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AvgLengthPerSongBymixtape)
+        </td>
+       
+    </tr>
+}
+
+</table>

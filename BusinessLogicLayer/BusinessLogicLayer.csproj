@@ -45,6 +45,7 @@
     <Compile Include="ContextBLL.cs" />
     <Compile Include="GenreBLL.cs" />
     <Compile Include="ListeningBLL.cs" />
+    <Compile Include="MixtapeStatistics.cs" />
     <Compile Include="MixtapeBLL.cs" />
     <Compile Include="RatingBLL.cs" />
     <Compile Include="RoleBLL.cs" />
