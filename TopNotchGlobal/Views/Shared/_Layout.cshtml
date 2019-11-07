@@ -20,7 +20,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                        @if (User.IsInRole("Administrator"))
+                        @if (User.IsInRole("Administrator"))//in this loop we are getting it to only display certain tabs to users within certain roles
                         {
                             <li>@Html.ActionLink("Main", "Index", "Home")</li>
                             <li>@Html.ActionLink("About Us", "About", "Home")</li>

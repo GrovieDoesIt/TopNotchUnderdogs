@@ -5,18 +5,16 @@ using System.Web;
 
 namespace TopNotchGlobal.Models
 {
-    public static class Constants
+    public static class Constants//we do not want to be hard coding anything in our project so instead we will be using these magic constants to keep certaing things the same throughout the project without having to code the certain limits constraints etc everytime
     {
-        public const int Artist = 1;
-        public const string ArtistRoleName = "Artist";
-
+       
         public const int PremiumUser = 4;
-        public const string PremiumUserRoleName = "PremiumUser";
+        public const string PremiumUserRoleName = "PremiumUser,Administrator";
 
         public const int AdministratorRole = 2;
         public const string AdministratorRoleName = "Administrator";
         public const int NonVerifiedUser = 8;
-        public const string NonVerifiedUserRoleName = "NonVerifiedUser";
+        public const string NonVerifiedUserRoleName = "NonVerifiedUser,PremiumUser,Administrator";
 
         public const int DefaultDefaultPageSize = 3;
         public const int MinUserNameLength = 6;

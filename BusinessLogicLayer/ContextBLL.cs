@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAccessLayer;
+using DataAccessLayer;//our reference to the Dal to be used to call down there and grab the information we will be using in this bll layer before MVC
 
 namespace BusinessLogicLayer
 {
@@ -74,29 +74,29 @@ namespace BusinessLogicLayer
         public List<UserBLL> UsersGetAll(int skip, int take)
         {
             List< UserBLL> ExpectedReturnValue = new List<UserBLL>();
-            List<UserDAL> infos = context.UsersGetAll(skip, take);
+            List<UserDAL> infos = context.UsersGetAll(skip, take);//we're going to say here that the information from the user dal UsersGetAll is the information we will be using in this instance
             foreach (UserDAL info in infos)
             {
-                UserBLL correctedInfo = new UserBLL(info);
+                UserBLL correctedInfo = new UserBLL(info);// we're now taking that information and pulling those values into our list for our userbll
                 ExpectedReturnValue.Add(correctedInfo);
             }
-            return ExpectedReturnValue;
+            return ExpectedReturnValue;//This is where we get our final list return value with all of the values from the Dal in our new list
         }
         public UserBLL UserFindByID(int UserID)
         {
             UserBLL ExpectedReturnValue = null;
-            UserDAL info = context.UserFindByID(UserID);
-            if (info != null)
+            UserDAL info = context.UserFindByID(UserID);//since we did the majority of our coding in the dal here we use context.userfindbyID and since we already are referencing the Dal in our using system we can directly go down and pull that stored procedure up to the bll and implement it
+            if (info != null)//as long as the information is not null
             {
-                ExpectedReturnValue = new UserBLL(info);
+                ExpectedReturnValue = new UserBLL(info);//than the information that is not null is our new user BLL
             }
             return ExpectedReturnValue;
         }
         public UserBLL UserFindByEmail(string Email)
         {
-            UserBLL ExpectedReturnValue = null;
+            UserBLL ExpectedReturnValue = null;//Our user bll value is currently null into we call into the dal on the next line and use our stored procedure to grab the information within the dal
             UserDAL info = context.UserFindByEmail(Email);
-            if (info != null)
+            if (info != null)//as long as the information is not null we will be taking that information from the dal we got from our stored procedure and within this conditional looping logic adding those values into our userbll to populate the values
             {
                 ExpectedReturnValue = new UserBLL(info);
             }
@@ -106,21 +106,21 @@ namespace BusinessLogicLayer
         public int UserCreate(string Email,string Hash, string Salt, int RoleID )
         {
             int ExpectedReturnValue = 0;
-            ExpectedReturnValue = context.UserCreate(Email, Hash, Salt, RoleID);
+            ExpectedReturnValue = context.UserCreate(Email, Hash, Salt, RoleID);//using our stored procedure to input values into all of the fields
             return ExpectedReturnValue;
         }
         public void UserDelete(int UserID)
         {
-            context.UserDelete(UserID);
+            context.UserDelete(UserID);//we're not returning any records so we will be using the void method for that exact reason and our User Delete stored procedure
         }
         public void UserUpdateJust(int UserID, string Email, string Hash, string Salt, int RoleID)
         {
-            context.UserUpdateJust(UserID, Email, Hash, Salt, RoleID);
+            context.UserUpdateJust(UserID, Email, Hash, Salt, RoleID);//similar to the delete we're not returning any records we're simply making some sort of change to one of the paramaters in our particular users record
         }
         public int UsersObtainCount()
         {
             int ExpectedReturnValue = 0;
-            ExpectedReturnValue = context.UsersObtainCount();
+            ExpectedReturnValue = context.UsersObtainCount();//by using this procedure we should get the total number of users we have as a single return value
             return ExpectedReturnValue;
         }
         public List<UserBLL> UsersGetRelatedToRoleID(int RoleID, int skip, int take)

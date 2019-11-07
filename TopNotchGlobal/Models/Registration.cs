@@ -9,7 +9,7 @@ namespace TopNotchGlobal.Models
     public class RegistrationModel
     {
         public string Message { get; set; }
-        [Required]
+        [Required]//here we are using data annotations to limit and constraint certain things in our project
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
         public string Email { get; set; }

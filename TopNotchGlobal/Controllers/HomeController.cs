@@ -49,47 +49,56 @@ namespace TopNotchGlobal.Controllers
 
         [HttpPost]
         public ActionResult Login(LoginModel info)
-        {
-            using (BusinessLogicLayer.ContextBLL context = new BusinessLogicLayer.ContextBLL())
+        {try
             {
-                BusinessLogicLayer.UserBLL user = context.UserRoleFindByEmail(info.Email);
-                if(user == null)
+
+
+                using (ContextBLL context = new ContextBLL())
                 {
-                    info.Message = $"The Email '{info.Email }' does not exist in the database";
-                    return View(info);
-                }
-                string actual = user.Hash;
-                string potential = info.Hash + user.Salt;
-                bool validateuser = System.Web.Helpers.Crypto.VerifyHashedPassword(actual, potential);
-                string validationType = $"ClearText:({user.UserID})";
-                if(!validateuser)
-                {
-                    potential = info.Hash + user.Salt;
-                    try
+                    UserBLL user = context.UserRoleFindByEmail(info.Email);
+                    if (user == null)
                     {
-                        validateuser = System.Web.Helpers.Crypto.VerifyHashedPassword(actual, potential);
-                        validationType = $"Hashed:({user.UserID})";
+                        info.Message = $"The Email '{info.Email }' does not exist in the database";
+                        return View(info);
                     }
-                    catch (Exception ex)
+                    string actual = user.Hash;
+                    string potential = info.Hash + user.Salt;
+                    bool validateuser = System.Web.Helpers.Crypto.VerifyHashedPassword(actual, potential);
+                    string validationType = $"ClearText:({user.UserID})";
+                    if (!validateuser)
                     {
-                        Logger.Log(ex);
+                        potential = info.Hash + user.Salt;
+                        try
+                        {
+                            validateuser = System.Web.Helpers.Crypto.VerifyHashedPassword(actual, potential);
+                            validationType = $"Hashed:({user.UserID})";
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Log(ex);
                             validateuser = false;
+                        }
+
                     }
+                    if (validateuser)
+                    {
+                        Session["AuthEmail"] = user.Email;
+                        Session["AuthRoleName"] = user.RoleName;
+                        Session["AUTHType"] = validationType;
+                        return Redirect(info.ReturnURL);
+                    }
+                    info.Message = "The Email/password was incorrect";
+                    return View(info);
 
                 }
-                if (validateuser)
-                {
-                    Session["AuthEmail"] = user.Email;
-                    Session["AuthRoleName"] = user.RoleName;
-                    Session["AUTHType"] = validationType;
-                    return Redirect(info.ReturnURL);
-                }
-                info.Message = "The Email/password was incorrect";
-                return View(info);
-
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex);
+                return View("Error", ex);
             }
 
-    }
+        }
             [HttpGet]
         public ActionResult Logout()
         {
@@ -97,7 +106,7 @@ namespace TopNotchGlobal.Controllers
             Session.Remove("AUTHRoleName");
             return RedirectToAction("Index");
         }
-
+        //Get
         public ActionResult Register()
         {
             return View();
@@ -105,31 +114,44 @@ namespace TopNotchGlobal.Controllers
 
         [HttpPost]
         public ActionResult Register(RegistrationModel info)
-        {
-            using (BusinessLogicLayer.ContextBLL context  = new BusinessLogicLayer.ContextBLL())
+        {   try
             {
-                BusinessLogicLayer.UserBLL user = context.UserFindByEmail(info.Email);
-                if (user != null)
-                {
-                    info.Message = $"The EMail Address '{info.Email}' already exists in the database";
-                    ModelState.Clear();
-                    return View(info);
-                }
-                user = new UserBLL
-                {
-                    Email = info.Email,
-                    Salt = System.Web.Helpers.Crypto.
-                    GenerateSalt(Constants.SaltSize)
-                };
-                user.Hash = System.Web.Helpers.Crypto.
-                    HashPassword(info.Hash + user.Salt);
-                user.RoleID = 3;
 
-                context.UserCreate(user.Email,user.Hash,user.Salt,Constants.NonVerifiedUser);
-                Session["AUTHUsername"] = user.Email;
-                Session["AUTHRoles"] = user.RoleName;
-                Session["AUTHTYPE"] = "HASHED";
-                return RedirectToAction("Index");
+
+                using (ContextBLL context = new ContextBLL())
+                {
+                    UserBLL user = context.UserFindByEmail(info.Email);
+                    if (user != null)
+                    {
+                        info.Message = $"The EMail Address '{info.Email}' already exists in the database";
+                        ModelState.Clear();
+                        return View(info);
+                    }
+                    if (!ModelState.IsValid)
+                    {
+                        return View(info);
+                    }
+                    user = new UserBLL
+                    {
+                        Email = info.Email,
+                        Salt = System.Web.Helpers.Crypto.
+                        GenerateSalt(Constants.SaltSize)
+                    };
+                    user.Hash = System.Web.Helpers.Crypto.
+                        HashPassword(info.Hash + user.Salt);
+                    user.RoleID = 3;
+
+                    context.UserCreate(user.Email, user.Hash, user.Salt, Constants.NonVerifiedUser);
+                    Session["AUTHUsername"] = user.Email;
+                    Session["AUTHRoles"] = user.RoleName;
+                    Session["AUTHTYPE"] = "HASHED";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch(Exception ex)
+            {
+                Logger.Log(ex);
+                return View("Error", ex);
             }
         }
 

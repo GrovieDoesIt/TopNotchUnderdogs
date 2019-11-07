@@ -5,10 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
 using Logger_;
+using TopNotchGlobal.Models;
+using static TopNotchGlobal.Models.Filters;
 
 namespace TopNotchGlobal.Controllers
 {
-    public class GenresController : Controller
+   [MustBeInRole(Roles =Constants.NonVerifiedUserRoleName)] public class GenresController : Controller
     {
         // GET: Genres
         public ActionResult Index()
@@ -19,6 +21,17 @@ namespace TopNotchGlobal.Controllers
                 info = context.GenresGetAll(0, 100);
             }
             return View(info);
+        }
+
+        public ActionResult ShowMixtapes(int id)
+        {
+
+            List<GenreBLL> infos = new List<GenreBLL>();
+            using (ContextBLL context = new ContextBLL())
+            {
+                infos = context.MixtapeGenresGetAllGenresByMixtapeID(0, 100, id);
+            }
+            return View("..\\Genres\\index", infos);
         }
 
         // GET: Genres/Details/5
@@ -54,7 +67,7 @@ namespace TopNotchGlobal.Controllers
             catch (Exception ex)
             {
                 Logger.Log(ex);
-                return View("NiceErrorMessage", ex);
+                return View("Error", ex);
             }
         }
 
@@ -85,7 +98,7 @@ namespace TopNotchGlobal.Controllers
             catch (Exception ex)
             {
                 Logger.Log(ex);
-                return View("NiceErrorMessage", ex);
+                return View("Error", ex);
             }
         }
 

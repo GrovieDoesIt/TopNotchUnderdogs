@@ -5,9 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
 using Logger_;
+using TopNotchGlobal.Models;
+using static TopNotchGlobal.Models.Filters;
 
 namespace TopNotchGlobal.Controllers
 {
+    [MustBeInRole(Roles = Constants.AdministratorRoleName)]
     public class RolesController : Controller
     {
         // GET: Roles

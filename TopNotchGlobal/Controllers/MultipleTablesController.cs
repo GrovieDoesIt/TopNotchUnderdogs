@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using BusinessLogicLayer;
 using TopNotchGlobal.Models;
 using Logger_;
+using static TopNotchGlobal.Models.Filters;
 
 namespace TopNotchGlobal.Controllers
 {
+    [MustBeInRole(Roles = Constants.NonVerifiedUserRoleName)]
     public class MultipleTablesController : Controller
     {
         // GET: MultipleTables

@@ -6,10 +6,12 @@ using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
 using Logger_;
+using TopNotchGlobal.Models;
+using static TopNotchGlobal.Models.Filters;
 
 namespace TopNotchGlobal.Controllers
 {
-    public class MixtapesController : Controller
+    [MustBeInRole(Roles =Constants.NonVerifiedUserRoleName)] public class MixtapesController : Controller
     {
         // GET: Mixtapes
         public ActionResult Statistics()
@@ -25,8 +27,11 @@ namespace TopNotchGlobal.Controllers
             
            
         }
+
+        
+
         public ActionResult Index()
-        {
+        { 
             List<MixtapeBLL> info = null;
             using (ContextBLL context = new ContextBLL())
             {
@@ -101,32 +106,41 @@ namespace TopNotchGlobal.Controllers
 
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase file, MixtapeBLL collection)
-        {
-            if (file != null && file.ContentLength> 0)
+        {   try
             {
-                string MixtapeName = Path.GetFileNameWithoutExtension(file.FileName) + DateTime.Now.Ticks + Path.GetExtension(file.FileName);
-                string MixtapePath = Path.Combine(Server.MapPath("~/Content/UploadedFiles"), MixtapeName);
 
-                string WebOutput = Path.Combine("~/Content/UploadedFiles", MixtapeName);
-                MixtapeBLL info = new MixtapeBLL();
 
-                using (ContextBLL context = new ContextBLL())
+                if (file != null && file.ContentLength > 0)
                 {
-                    info.MixtapePath = WebOutput;
-                    context.MixtapeCreate(info.MixtapePath,collection.ArtistName,collection.Title,collection.NumberOfSongs,collection.Length);
+                    string MixtapeName = Path.GetFileNameWithoutExtension(file.FileName) + DateTime.Now.Ticks + Path.GetExtension(file.FileName);
+                    string MixtapePath = Path.Combine(Server.MapPath("~/Content/UploadedFiles"), MixtapeName);
 
+                    string WebOutput = Path.Combine("~/Content/UploadedFiles", MixtapeName);
+                    MixtapeBLL info = new MixtapeBLL();
+
+                    using (ContextBLL context = new ContextBLL())
+                    {
+                        info.MixtapePath = WebOutput;
+                        context.MixtapeCreate(info.MixtapePath, collection.ArtistName, collection.Title, collection.NumberOfSongs, collection.Length);
+
+                    }
+
+                    file.SaveAs(MixtapePath);
+
+
+
+                    return RedirectToAction("Index");
                 }
-                
-                file.SaveAs(MixtapePath);
-                
-
-
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                ViewBag.Message = "You have not specified a file yet please go back and specify which file";
+                else
+                {
+                    ViewBag.Message = "You have not specified a file yet please go back and specify which file";
                     return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex);
+                return View("Error", ex);
             }
         }
 

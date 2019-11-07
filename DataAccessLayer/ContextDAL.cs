@@ -8,22 +8,22 @@ using Logger_;
 
 namespace DataAccessLayer
 {
-    public class ContextDAL : IDisposable
+    public class ContextDAL : IDisposable// we are using the idisposable to dispose of the class after we have used it because it is heavy 
     {
         SqlConnection conn = new SqlConnection();
         public void Dispose()
         {
             conn.Dispose();
         }
-        void EnsureConnected()
+        void EnsureConnected()//just ensures that we have an actual connection to the database
         {
             switch (conn.State)//making sure that regardless of the state we open the connection
             {
                 case (System.Data.ConnectionState.Closed):
-                    conn.Open();
+                    conn.Open();//if the connection is closed we will reopen it
                     break;
                 case (System.Data.ConnectionState.Broken):
-                    conn.Close();
+                    conn.Close();//If the connection is broken we want to close and reopen the connection
                     conn.Open();
                     break;
                 case (System.Data.ConnectionState.Open):
@@ -226,32 +226,33 @@ namespace DataAccessLayer
         }
 
         #endregion RoleProcedures
+
         #region UsersProcedures
 
-        public UserDAL UserFindByID(int UserID)
+        public UserDAL UserFindByID(int UserID)// Showing our method signature with the name of UserFindByID and the parameter UserID that we will be using within the Method
         {
             UserDAL ExpectedReturnValue = null;
             try
             {
 
 
-                EnsureConnected();
+                EnsureConnected();//Using our connection string to reach down into sql and be able to use the sql command we're defining now in c#
                 using (SqlCommand command = new SqlCommand("UserFindByID", conn))
                 {
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@UserID", UserID);
+                    command.CommandType = System.Data.CommandType.StoredProcedure;//telling visual studios that we're going to be using a command  that is a stored procedure with the name we declared above
+                    command.Parameters.AddWithValue("@UserID", UserID);//adding the value of the var UserID which is "@UserID" in Sql
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        UserMapper um = new UserMapper(reader);
+                        UserMapper um = new UserMapper(reader);//This constructor is ineffecient but hey at least it's only executed one time
                         int count = 0;
                         while (reader.Read())
                         {
-                            ExpectedReturnValue = um.ToUser(reader);
+                            ExpectedReturnValue = um.ToUser(reader);//This to user is the third part of the mapper and is executed many times(but at least it's effecient)
                             count++;
                         }
                         if (count > 1)
                         {
-                            throw new Exception($"{count} Multiple users found for ID{UserID}");
+                            throw new Exception($"{count} Multiple users found for ID{UserID}");//If we find multiple users for a single email we want to make sure we catch this exception since we should only have one user with a certain  user ID since the UserID is unique
                         }
 
                     }
@@ -260,13 +261,13 @@ namespace DataAccessLayer
             }
             catch (Exception ex) when (Log(ex))
             {
-
+                //Logging our errors if their is more than 1 user found or our stored procedure encounters any other issues
             }
             return ExpectedReturnValue;
         }
-        public List<UserDAL> UsersGetAll(int skip, int take)
+        public List<UserDAL> UsersGetAll(int skip, int take)//Method called Users get all with the parameters of skip and take which would be used for paging
         {
-            List<UserDAL> ExpectedReturnValue = new List<UserDAL>();
+            List<UserDAL> ExpectedReturnValue = new List<UserDAL>();//since we want to see all off the users we must create a list of all the users as our expected return value
             try
             {
 
@@ -275,14 +276,14 @@ namespace DataAccessLayer
                 using (SqlCommand command = new SqlCommand("UsersGetAll", conn))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@skip", skip);
-                    command.Parameters.AddWithValue("@take", take);
+                    command.Parameters.AddWithValue("@skip", skip);//skip is used to tell the system to skip a certain number of rows of records that we don't need to use if we want to start at record 10 instead of the first record or whatever number you decide to skip
+                    command.Parameters.AddWithValue("@take", take);//this takes the next identified number of rows we want to display
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        UserMapper um = new UserMapper(reader);
+                        UserMapper um = new UserMapper(reader);//This constructor is ineffecient but hey at least it's only executed one time 
                         while (reader.Read())
                         {
-                            UserDAL info = um.ToUser(reader);
+                            UserDAL info = um.ToUser(reader);//This to user is the third part of the mapper and is executed many times(but at least it's effecient)
                             ExpectedReturnValue.Add(info);
                         }
                     }
@@ -294,7 +295,7 @@ namespace DataAccessLayer
             }
             return ExpectedReturnValue;
         }
-        public int UsersObtainCount()
+        public int UsersObtainCount()//this takes no parameters to execute it only returns a scalar value int by use of the aggregate function count
         {
             int ExpectedReturnValue = 0;
             try
@@ -305,7 +306,7 @@ namespace DataAccessLayer
                 using (SqlCommand command = new SqlCommand("UsersObtainCount", conn))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-                    ExpectedReturnValue = (int)command.ExecuteScalar();
+                    ExpectedReturnValue = (int)command.ExecuteScalar();//scalar returns just a single item IE the total number of Users returns a single record of a single column
                 }
             }
             catch (Exception ex) when (Log(ex))
@@ -314,7 +315,7 @@ namespace DataAccessLayer
             }
             return ExpectedReturnValue;
         }
-        public int UserCreate(string Email,string Hash, string Salt, int RoleID)
+        public int UserCreate(string Email,string Hash, string Salt, int RoleID)//all the paramaters that we will need to create our new user and its an int expected return value 
         {
             int ExpectedReturnValue = 0;
             try
@@ -330,9 +331,9 @@ namespace DataAccessLayer
                     command.Parameters.AddWithValue("@Hash", Hash);
                     command.Parameters.AddWithValue("@Salt", Salt);
                     command.Parameters.AddWithValue("@RoleID", RoleID);
-                    command.Parameters["@UserID"].Direction = System.Data.ParameterDirection.Output;
-                    command.ExecuteNonQuery();
-                    ExpectedReturnValue = (int)command.Parameters["@UserID"].Value;
+                    command.Parameters["@UserID"].Direction = System.Data.ParameterDirection.Output;//The UserID is the output which must be declared and set as such
+                    command.ExecuteNonQuery();//Execute Non query returns no data only the number of rows affected
+                    ExpectedReturnValue = (int)command.Parameters["@UserID"].Value;//This is where we claim the UserID is our  Expected return value which is an integer
                 }
             }
             catch (Exception ex) when (Log(ex))
@@ -341,7 +342,7 @@ namespace DataAccessLayer
             }
             return ExpectedReturnValue;
         }
-        public void UserDelete(int UserId)
+        public void UserDelete(int UserId) // we use the void method in this instance since we are not returning a value and the ID is the only thing needed to delete the entire record
         { try
             {
 
@@ -351,7 +352,7 @@ namespace DataAccessLayer
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@UserID", UserId);
-                    command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();//since we are not returning a value we use this command since we are returning no data 
                 }
             }
             catch (Exception ex) when (Log(ex))
@@ -359,7 +360,7 @@ namespace DataAccessLayer
 
             }
         }
-        public void UserUpdateJust(int UserID, string Email, string Hash, string Salt, int RoleID)
+        public void UserUpdateJust(int UserID, string Email, string Hash, string Salt, int RoleID)//I did not use the update safe method for the fact that at no time should we have a racing issue where 2 users are trying to edit the same file at the same time
         { try
             {
 
@@ -369,7 +370,7 @@ namespace DataAccessLayer
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@UserID", UserID);
-                    command.Parameters.AddWithValue("@Email", Email);
+                    command.Parameters.AddWithValue("@Email", Email);// in this update just method we are simply going to be making changes to certain paramters within that users values
                     command.Parameters.AddWithValue("@Hash", Hash);
                     command.Parameters.AddWithValue("@Salt", Salt);
                     command.Parameters.AddWithValue("@RoleID", RoleID);
@@ -754,6 +755,7 @@ namespace DataAccessLayer
             }
         }
         #endregion
+
         #region MixtapeProcedures
         public int MixtapeCreate(string MixtapePath ,string ArtistName, string Title, int NumberOfSongs, int Length)
         {

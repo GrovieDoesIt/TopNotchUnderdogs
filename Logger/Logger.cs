@@ -18,7 +18,7 @@ namespace Logger_
         {
             try
             {
-                connectionstring = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                connectionstring = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             }
             catch (Exception)
             {

@@ -5,9 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using BusinessLogicLayer;
 using Logger_;
+using TopNotchGlobal.Models;
+using static TopNotchGlobal.Models.Filters;
 
 namespace TopNotchGlobal.Controllers
 {
+    [MustBeInRole(Roles = Constants.PremiumUserRoleName)]
     public class UsersController : Controller
     {
         // GET: Users
@@ -75,7 +78,7 @@ namespace TopNotchGlobal.Controllers
             catch (Exception ex)
             {
                 Logger.Log(ex);
-                return View("NiceErrorMessage", ex);
+                return View("Error", ex);
             }
         }
 
@@ -109,7 +112,7 @@ namespace TopNotchGlobal.Controllers
             catch (Exception ex)
             {
                 Logger.Log(ex);
-                return View("NiceErrorMessage", ex);
+                return View("Error", ex);
             }
         }
 
@@ -141,7 +144,7 @@ namespace TopNotchGlobal.Controllers
             catch (Exception ex)
             {
                 Logger.Log(ex);
-                return View("NiceErrorMessage", ex);
+                return View("Error", ex);
             }
         }
     }
